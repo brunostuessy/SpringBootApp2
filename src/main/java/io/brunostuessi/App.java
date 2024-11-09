@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @SpringBootApplication
-public class DemoApplication {
+public class App {
 
     @RequestMapping("/")
     String home() {
@@ -15,7 +15,7 @@ public class DemoApplication {
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(DemoApplication.class, args);
+        SpringApplication.run(App.class, args);
     }
 
 }
