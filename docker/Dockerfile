@@ -98,4 +98,5 @@ EXPOSE 8081
 #ENV JAVA_OPTS_APPEND="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
 ENV JAVA_APP_JAR="/deployments/spring-boot-app.jar"
 
+# see https://developers.redhat.com/articles/2024/03/14/how-use-java-container-awareness-openshift-4#conclusion
 ENTRYPOINT ["/opt/jboss/container/java/run/run-java.sh", "--server.port=8081"]
