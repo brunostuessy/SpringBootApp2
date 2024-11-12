@@ -96,6 +96,6 @@ COPY --from=builder /home/jboss/project/target/spring-boot-app.jar  /deployments
 EXPOSE 8081
 
 #ENV JAVA_OPTS_APPEND="-Dquarkus.http.host=0.0.0.0 -Djava.util.logging.manager=org.jboss.logmanager.LogManager"
-#ENV JAVA_APP_JAR="/deployments/spring-boot-app.jar"
+ENV JAVA_APP_JAR="/deployments/spring-boot-app.jar"
 
 ENTRYPOINT ["/opt/jboss/container/java/run/run-java.sh", "--server.port=8081"]
