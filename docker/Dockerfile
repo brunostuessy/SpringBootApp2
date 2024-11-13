@@ -26,8 +26,6 @@
 # - JAVA_OPTS_APPEND: User specified Java options to be appended to generated options
 #   in JAVA_OPTS (example: "-Dsome.property=foo")
 #
-# See https://developers.redhat.com/articles/2024/03/14/how-use-java-container-awareness-openshift-4#conclusion
-#
 # Openshift S2I example:
 # java -XX:MaxRAMPercentage=80.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:+ExitOnOutOfMemoryError -cp "." -jar /deployments/spring-boot-app.jar --server.port=8081
 ####
@@ -58,10 +56,5 @@ EXPOSE 8081
 ENV JAVA_OPTS_APPEND=""
 ENV JAVA_APP_DIR="/deployments"
 ENV JAVA_APP_JAR="/deployments/spring-boot-app.jar"
-
-RUN cat /opt/jboss/container/java/run/run-java.sh
-RUN cat /deployments/run-java.sh
-RUN ls -l /opt/jboss/container/java/run
-RUN ls -l /deployments
 
 ENTRYPOINT ["/deployments/run-java.sh", "--server.port=8081"]

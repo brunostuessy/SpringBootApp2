@@ -17,6 +17,8 @@ This application can be deployed to OpenShift Dev Sandbox Kubernetes Cluster:
 * Application spring-boot-app-2-app
 * Name spring-boot-app-2
 
+See https://developers.redhat.com/articles/2024/03/14/how-use-java-container-awareness-openshift-4#conclusion
+
 **Note:** The Spring Boot code sample uses the **8081** HTTP port.
 
 Before you begin creating an application with this `devfile` code sample, it's helpful to understand the relationship between the `devfile` and `Dockerfile` and how they contribute to your build. You can find these files at the following URLs:
