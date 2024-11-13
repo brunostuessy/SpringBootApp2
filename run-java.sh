@@ -1,3 +1,4 @@
+#!/bin/sh
 # ==========================================================
 # Generic run script for running arbitrary Java applications
 #
