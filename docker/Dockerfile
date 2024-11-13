@@ -14,7 +14,7 @@
 # Additionally you will have to set -e JAVA_DEBUG=true and -e JAVA_DEBUG_PORT=*:5005
 # when running the container
 #
-# Then run the container using :
+# Then run the container using:
 #
 # docker run -i --rm -p 8081:8081 springboot/sample-demo
 #
@@ -25,6 +25,7 @@
 # - JAVA_OPTS_APPEND: User specified Java options to be appended to generated options
 #   in JAVA_OPTS (example: "-Dsome.property=foo")
 ####
+
 #FROM registry.access.redhat.com/ubi8/openjdk-21:1.20-3.1730773765 AS builder
 FROM maven:3.9.9-eclipse-temurin-21 AS builder
 

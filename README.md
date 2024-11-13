@@ -14,8 +14,8 @@ This application can be deployed to OpenShift Dev Sandbox Kubernetes Cluster:
 
 * Use S2I Import from Git
 * Url https://github.com/brunostuessy/SpringBootApp2.git
-* Application spring-boot-app-2-app
-* Name spring-boot-app-2
+* Application e.g. spring-boot-app-2-app
+* Name e.g. spring-boot-app-2
 
 See https://developers.redhat.com/articles/2024/03/14/how-use-java-container-awareness-openshift-4
 
