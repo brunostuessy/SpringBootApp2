@@ -1,3 +1,4 @@
 package io.brunostuessi.controller;
 
-public record Greeting(String content) { }
+public record Greeting(String content) {
+}
