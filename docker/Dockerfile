@@ -19,8 +19,7 @@
 # docker run -i --rm -p 8080:8080 quarkus/getting-started-async-jvm
 #
 # This image uses the `run-java.sh` script to run the application.
-# This script computes the command line to execute your Java application, and
-# includes memory/GC tuning.
+# This script computes the command line to execute the Java application.
 # You can configure the behavior using the following environment properties:
 # - JAVA_OPTS: JVM options passed to the `java` command (example: "-verbose:class")
 # - JAVA_OPTS_APPEND: User specified Java options to be appended to generated options
@@ -53,7 +52,8 @@ COPY --from=builder /home/jboss/project/target/spring-boot-app.jar /deployments/
 
 EXPOSE 8081
 
-ENV JAVA_OPTS_APPEND=""
+ENV JAVA_OPTS=""
+ENV JAVA_OPTS_APPEND="--add-opens java.base/sun.nio.ch=ALL-UNNAMED -Djava.net.preferIPv4Stack=true"
 ENV JAVA_APP_DIR="/deployments"
 ENV JAVA_APP_JAR="/deployments/spring-boot-app.jar"
 
