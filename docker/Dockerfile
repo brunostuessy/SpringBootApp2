@@ -60,6 +60,8 @@ ENV JAVA_OPTS_APPEND=""
 ENV JAVA_APP_DIR="/deployments"
 ENV JAVA_APP_JAR="/deployments/spring-boot-app.jar"
 
+RUN cat /deployments/run-java.sh
+RUN ls -l /opt/jboss/container/java/run
 RUN ls -l /deployments
 
 ENTRYPOINT ["/deployments/run-java.sh", "--server.port=8081"]
