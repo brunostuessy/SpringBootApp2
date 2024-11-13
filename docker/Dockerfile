@@ -16,7 +16,7 @@
 #
 # Then run the container using :
 #
-# docker run -i --rm -p 8080:8080 quarkus/getting-started-async-jvm
+# docker run -i --rm -p 8081:8081 springboot/sample-demo
 #
 # This image uses the `run-java.sh` script to run the application.
 # This script computes the command line to execute the Java application.
@@ -51,7 +51,9 @@ EXPOSE 8081
 
 # Openshift S2I example for non-overridden JAVA_OPTS and then JAVA_OPTS_APPEND is ignored:
 # -XX:MaxRAMPercentage=80.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:+ExitOnOutOfMemoryError
-ENV JAVA_OPTS="--add-opens java.base/sun.nio.ch=ALL-UNNAMED -XX:+ExitOnOutOfMemoryError"
+# Openshift S2I example for overridden JAVA_OPTS and then JAVA_OPTS_APPEND is respected:
+# --add-opens java.base/sun.nio.ch=ALL-UNNAMED -XX:+ExitOnOutOfMemoryError
+ENV JAVA_OPTS="--add-opens java.base/sun.nio.ch=ALL-UNNAMED -XX:+UseZGC -XX:+ZGenerational -XX:+ExitOnOutOfMemoryError"
 ENV JAVA_OPTS_APPEND="-Djava.net.preferIPv4Stack=true"
 ENV JAVA_APP_DIR="/deployments"
 ENV JAVA_APP_JAR="/deployments/spring-boot-app.jar"
