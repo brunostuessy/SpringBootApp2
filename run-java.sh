@@ -271,3 +271,7 @@ startup() {
   log_info "running in $PWD"
   exec -a "${procname}" java $(get_java_options) -cp "$(get_classpath)" ${args} $*
 }
+
+# =============================================================================
+# Fire up
+startup $*

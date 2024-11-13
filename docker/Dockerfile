@@ -39,7 +39,6 @@ RUN mkdir project
 WORKDIR /home/jboss/project
 COPY pom.xml .
 COPY run-java.sh .
-#RUN chmod 755 run-java.sh
 RUN mvn dependency:go-offline
 
 COPY src src
