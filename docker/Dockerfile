@@ -38,11 +38,12 @@ FROM maven:3.9.9-eclipse-temurin-21 AS builder
 RUN mkdir project
 WORKDIR /home/jboss/project
 COPY pom.xml .
+COPY run-java.sh .
 RUN mvn dependency:go-offline
 
 COPY src src
 RUN mvn package -Dmaven.test.skip=true
-# compute the created jar name and put it in a known location to copy to the next layer.
+# Compute the created jar name and put it in a known location to copy to the next layer.
 # If the user changes pom.xml to have a different version, or artifactId, this will find the jar
 RUN grep version target/maven-archiver/pom.properties | cut -d '=' -f2 >.env-version
 RUN grep artifactId target/maven-archiver/pom.properties | cut -d '=' -f2 >.env-id
@@ -50,6 +51,9 @@ RUN mv target/$(cat .env-id)-$(cat .env-version).jar target/spring-boot-app.jar
 
 FROM registry.access.redhat.com/ubi8/openjdk-21-runtime:1.20-2.1730773767
 COPY --from=builder /home/jboss/project/target/spring-boot-app.jar /deployments/spring-boot-app.jar
+# Add run script as /deployments/run-java.sh and make it executable
+COPY --from=builder /home/jboss/project/run-java.sh /deployments/run-java.sh
+RUN chmod 755 /deployments/run-java.sh
 
 EXPOSE 8081
 
@@ -57,4 +61,4 @@ ENV JAVA_OPTS_APPEND=""
 ENV JAVA_APP_DIR="/deployments"
 ENV JAVA_APP_JAR="/deployments/spring-boot-app.jar"
 
-ENTRYPOINT ["/opt/jboss/container/java/run/run-java.sh", "--server.port=8081"]
+ENTRYPOINT ["/deployments/run-java.sh", "--server.port=8081"]
