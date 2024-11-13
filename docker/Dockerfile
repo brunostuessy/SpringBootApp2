@@ -39,7 +39,7 @@ RUN mkdir project
 WORKDIR /home/jboss/project
 COPY pom.xml .
 COPY run-java.sh .
-RUN chmod 774 run-java.sh
+#RUN chmod 755 run-java.sh
 RUN mvn dependency:go-offline
 
 COPY src src
@@ -51,7 +51,7 @@ RUN grep artifactId target/maven-archiver/pom.properties | cut -d '=' -f2 >.env-
 RUN mv target/$(cat .env-id)-$(cat .env-version).jar target/spring-boot-app.jar
 
 FROM registry.access.redhat.com/ubi8/openjdk-21-runtime:1.20-2.1730773767
-COPY --from=builder /home/jboss/project/run-java.sh /deployments/run-java.sh
+COPY --from=builder --chmod=755 /home/jboss/project/run-java.sh /deployments/run-java.sh
 COPY --from=builder /home/jboss/project/target/spring-boot-app.jar /deployments/spring-boot-app.jar
 
 EXPOSE 8081
@@ -60,6 +60,7 @@ ENV JAVA_OPTS_APPEND=""
 ENV JAVA_APP_DIR="/deployments"
 ENV JAVA_APP_JAR="/deployments/spring-boot-app.jar"
 
+RUN cat /opt/jboss/container/java/run/run-java.sh
 RUN cat /deployments/run-java.sh
 RUN ls -l /opt/jboss/container/java/run
 RUN ls -l /deployments
