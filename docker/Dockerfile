@@ -26,6 +26,9 @@
 #   in JAVA_OPTS (example: "-Dsome.property=foo")
 ####
 
+
+#### Build the Java 21 application using Maven 3.9.9 (>3.6.2 as provided by Openshift)
+
 #FROM registry.access.redhat.com/ubi8/openjdk-21:1.20-3.1730773765 AS builder
 FROM maven:3.9.9-eclipse-temurin-21 AS builder
 
@@ -38,11 +41,15 @@ RUN mvn dependency:go-offline
 
 COPY src src
 RUN mvn package -Dmaven.test.skip=true
+
 # Compute the created jar name and put it in a known location to copy to the next layer.
 # If the user changes pom.xml to have a different version, or artifactId, this will find the jar
 RUN grep version target/maven-archiver/pom.properties | cut -d '=' -f2 >.env-version
 RUN grep artifactId target/maven-archiver/pom.properties | cut -d '=' -f2 >.env-id
 RUN mv target/$(cat .env-id)-$(cat .env-version).jar target/spring-boot-app.jar
+
+
+#### Run the Java 21 application using run-java.sh (copied from Openshift)
 
 FROM registry.access.redhat.com/ubi8/openjdk-21-runtime:1.20-2.1730773767
 COPY --from=builder --chmod=755 /home/jboss/project/run-java.sh /deployments/run-java.sh
@@ -50,9 +57,9 @@ COPY --from=builder /home/jboss/project/target/spring-boot-app.jar /deployments/
 
 EXPOSE 8081
 
-# Openshift S2I example for non-overridden JAVA_OPTS and then JAVA_OPTS_APPEND is ignored:
+# run-java.sh example for Openshift S2I non-overridden JAVA_OPTS and then JAVA_OPTS_APPEND is ignored:
 # -XX:MaxRAMPercentage=80.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:+ExitOnOutOfMemoryError
-# Openshift S2I example for overridden JAVA_OPTS and then JAVA_OPTS_APPEND is respected:
+# run-java.sh example for Openshift S2I overridden JAVA_OPTS and then JAVA_OPTS_APPEND is respected:
 # --add-opens java.base/sun.nio.ch=ALL-UNNAMED -XX:+ExitOnOutOfMemoryError
 ENV JAVA_OPTS="--add-opens java.base/sun.nio.ch=ALL-UNNAMED -XX:+UseZGC -XX:+ZGenerational -XX:+ExitOnOutOfMemoryError"
 ENV JAVA_OPTS_APPEND="-Djava.net.preferIPv4Stack=true"
