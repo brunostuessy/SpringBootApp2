@@ -24,9 +24,6 @@
 # - JAVA_OPTS: JVM options passed to the `java` command (example: "-verbose:class")
 # - JAVA_OPTS_APPEND: User specified Java options to be appended to generated options
 #   in JAVA_OPTS (example: "-Dsome.property=foo")
-#
-# Openshift S2I example:
-# java -XX:MaxRAMPercentage=80.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:+ExitOnOutOfMemoryError -cp "." -jar /deployments/spring-boot-app.jar --server.port=8081
 ####
 #FROM registry.access.redhat.com/ubi8/openjdk-21:1.20-3.1730773765 AS builder
 FROM maven:3.9.9-eclipse-temurin-21 AS builder
@@ -52,8 +49,10 @@ COPY --from=builder /home/jboss/project/target/spring-boot-app.jar /deployments/
 
 EXPOSE 8081
 
-ENV JAVA_OPTS=""
-ENV JAVA_OPTS_APPEND="--add-opens java.base/sun.nio.ch=ALL-UNNAMED -Djava.net.preferIPv4Stack=true"
+# Openshift S2I example for non-overridden JAVA_OPTS and then JAVA_OPTS_APPEND is ignored:
+# -XX:MaxRAMPercentage=80.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:+ExitOnOutOfMemoryError
+ENV JAVA_OPTS="--add-opens java.base/sun.nio.ch=ALL-UNNAMED -XX:+ExitOnOutOfMemoryError"
+ENV JAVA_OPTS_APPEND="-Djava.net.preferIPv4Stack=true"
 ENV JAVA_APP_DIR="/deployments"
 ENV JAVA_APP_JAR="/deployments/spring-boot-app.jar"
 
