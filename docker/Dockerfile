@@ -63,7 +63,7 @@ RUN cat /sys/kernel/mm/hugepages/hugepages-2048kB/nr_hugepages
 # -XX:MaxRAMPercentage=80.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -XX:+ExitOnOutOfMemoryError
 # run-java.sh example for Openshift S2I overridden JAVA_OPTS and then JAVA_OPTS_APPEND is respected:
 # java --add-opens java.base/sun.nio.ch=ALL-UNNAMED -XX:+UseZGC -XX:+ZGenerational -XX:+ExitOnOutOfMemoryError
-ENV JAVA_OPTS="--add-opens java.base/sun.nio.ch=ALL-UNNAMED -XX:+UseZGC -XX:+ZGenerational –XX:+UseStringDeduplication -XX:+ExitOnOutOfMemoryError -XX:+PrintGCDetails"
+ENV JAVA_OPTS="--add-opens java.base/sun.nio.ch=ALL-UNNAMED -XX:+UseZGC -XX:+ZGenerational -XX:+ExitOnOutOfMemoryError -XX:+PrintGCDetails"
 ENV JAVA_OPTS_APPEND="-Djava.net.preferIPv4Stack=true"
 ENV JAVA_APP_DIR="/deployments"
 ENV JAVA_APP_JAR="/deployments/spring-boot-app.jar"
