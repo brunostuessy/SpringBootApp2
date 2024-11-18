@@ -1,5 +1,6 @@
 package io.brunostuessi.web.controller;
 
+import io.brunostuessi.web.dto.GreetingDto;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -7,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class GreetingController {
 
     @RequestMapping("/")
-    Greeting home() {
-        return new Greeting("Hello World!");
+    GreetingDto home() {
+        return new GreetingDto("Hello World!");
     }
 
 }
